@@ -1,9 +1,9 @@
 package com.poc.hateoas.data.model
 
+import org.springframework.hateoas.RepresentationModel
 import java.util.*
 
 data class ListItem(
-    private val id: String = UUID.randomUUID().toString(),
-    private val content: String,
-    private val listId: String
-)
+    val id: String = UUID.randomUUID().toString(),
+    val content: String
+): RepresentationModel<ListItem>()

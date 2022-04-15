@@ -13,19 +13,26 @@ class ListRepositoryService(
         lists[com.poc.hateoas.data.model.List(listName)] = mutableListOf()
     }
 
+    override fun createList(list: com.poc.hateoas.data.model.List) {
+        lists[list] = mutableListOf()
+    }
+
     override fun deleteList(id: String) {
         lists.remove(findList(id))
     }
 
-    override fun getList(id: String): com.poc.hateoas.data.model.List = findList(id)!!
+    override fun getList(id: String): com.poc.hateoas.data.model.List? = findList(id)
 
     override fun getLists(): List<com.poc.hateoas.data.model.List> = lists.toList().map { (list, _) -> list }
 
     override fun addListItem(listId: String, listItem: ListItem) {
         val list = findList(listId)
         val listItems = lists[list]
+        listItems?.add(listItem)
         lists[list!!] = listItems!!
     }
+
+    override fun getListListItem(listId: String): List<ListItem>? = lists[findList(listId)]?.toList()
 
     private fun findList(listId: String): com.poc.hateoas.data.model.List? =
         lists.toList().find { (list, _) -> list.id == listId}?.first
